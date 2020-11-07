@@ -9,6 +9,12 @@ class _ChooseLocationState extends State<ChooseLocation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
+      appBar: AppBar(
+        backgroundColor: Colors.amber[900],
+        title: Text('Choose a Location'),
+        centerTitle: true,
+      ),
       body: Text('choose location'),
     );
   }
