@@ -5,14 +5,23 @@ import 'package:intl/intl.dart';
 class WorldTime {
   String location;
   String time;
-  String flag;
   String url;
   bool isDayTime;
+  List timezones;
 
-  WorldTime({String location, String flag, String url}) {
+  WorldTime({String location, String url}) {
     this.location = location;
-    this.flag = flag;
     this.url = url;
+  }
+
+  Future<void> getAllTimes() async {
+    try {
+      Response response = await get('http://worldtimeapi.org/api/timezone');
+      timezones = jsonDecode(response.body);
+    } catch (e) {
+      print('Error:  $e');
+      time = 'Unable to load timezones data...';
+    }
   }
 
   Future<void> getTime() async {
@@ -27,8 +36,8 @@ class WorldTime {
       DateTime now = DateTime.parse(dateTime);
       now = now.add(Duration(hours: int.parse(offset)));
 
-      print(now.hour);
-      isDayTime = now.hour >= 5 && now.hour < 19 ? true : false;
+      isDayTime =
+          (now.hour >= 5 && now.minute >= 30) && now.hour < 19 ? true : false;
       time = DateFormat.jm().format(now);
     } catch (e) {
       print('Error:  $e');
