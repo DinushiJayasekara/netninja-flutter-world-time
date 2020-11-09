@@ -9,35 +9,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Map data = {};
 
-  // void editLocation() async {
-  //   WorldTime instance = WorldTime(location: 'Berlin', url: 'Europe/Berlin');
-  //   Navigator.pushNamed(context, '/location', arguments: {
-  //     'timezones': instance.timezones,
-  //   });
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   editLocation();
-  // }
-  // editLocation() {
-  //   WorldTime instance = WorldTime(location: 'Berlin', url: 'Europe/Berlin');
-  //   instance.getTime();
-  //   // await instance.getAllTimes();
-  //   Navigator.pushReplacementNamed(context, '/location', arguments: {
-  //     'location': instance.location,
-  //     'time': instance.time,
-  //     'isDayTime': instance.isDayTime,
-  //   });
-  // Navigator.pushReplacementNamed(context, '/location', arguments: {
-  //   'timezones': instance.timezones,
-  // });
-  // }
-
   @override
   Widget build(BuildContext context) {
-    data = ModalRoute.of(context).settings.arguments;
+    data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
 
     String bgImage = data['isDayTime'] ? 'morning.jpg' : 'night.jpg';
     Color bgColor = data['isDayTime'] ? Colors.white : Colors.black54;
@@ -46,8 +20,16 @@ class _HomeState extends State<Home> {
     void editLocation() async {
       WorldTime instance = WorldTime(location: 'Berlin', url: 'Europe/Berlin');
       await instance.getAllTimes();
-      Navigator.pushReplacementNamed(context, '/location', arguments: {
+      dynamic result =
+          await Navigator.pushNamed(context, '/location', arguments: {
         'timezones': instance.timezones,
+      });
+      setState(() {
+        data = {
+          'time': result['time'],
+          'location': result['location'],
+          'isDayTime': result['isDayTime'],
+        };
       });
     }
 

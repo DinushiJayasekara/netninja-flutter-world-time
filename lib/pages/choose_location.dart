@@ -11,6 +11,16 @@ class _ChooseLocationState extends State<ChooseLocation> {
 
   List<WorldTime> locations = [];
 
+  void updateTime(index) async {
+    WorldTime instance = locations[index];
+    await instance.getTime();
+    Navigator.pop(context, {
+      'location': instance.location,
+      'time': instance.time,
+      'isDayTime': instance.isDayTime,
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     data = ModalRoute.of(context).settings.arguments;
@@ -38,7 +48,9 @@ class _ChooseLocationState extends State<ChooseLocation> {
             padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
             child: Card(
               child: ListTile(
-                onTap: () {},
+                onTap: () {
+                  updateTime(index);
+                },
                 title: Text(locations[index].location),
                 leading: Icon(Icons.map),
               ),

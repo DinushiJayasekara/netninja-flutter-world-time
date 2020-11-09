@@ -36,8 +36,7 @@ class WorldTime {
       DateTime now = DateTime.parse(dateTime);
       now = now.add(Duration(hours: int.parse(offset)));
 
-      isDayTime =
-          (now.hour >= 5 && now.minute >= 30) && now.hour < 19 ? true : false;
+      isDayTime = now.hour >= 5 && now.hour < 19 ? true : false;
       time = DateFormat.jm().format(now);
     } catch (e) {
       print('Error:  $e');
