@@ -11,37 +11,62 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     data = ModalRoute.of(context).settings.arguments;
-    print(data);
+
+    String bgImage = data['isDayTime'] ? 'morning.jpg' : 'night.jpg';
+    Color bgColor = data['isDayTime'] ? Colors.white : Colors.black54;
+    Color textColor = data['isDayTime'] ? Colors.grey[800] : Colors.white70;
 
     return Scaffold(
+      backgroundColor: bgColor,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 120.0, 0, 0),
-          child: Column(
-            children: <Widget>[
-              FlatButton.icon(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/location');
-                },
-                icon: Icon(Icons.edit_location),
-                label: Text('Edit Location'),
-              ),
-              SizedBox(height: 20.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(data['location'],
-                      style: TextStyle(fontSize: 28.0, letterSpacing: 2.0)),
-                ],
-              ),
-              SizedBox(height: 20.0),
-              Text(
-                data['time'],
-                style: TextStyle(
-                  fontSize: 68.0,
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/$bgImage'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 110.0, 0, 0),
+            child: Column(
+              children: <Widget>[
+                FlatButton.icon(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/location');
+                  },
+                  icon: Icon(
+                    Icons.edit_location,
+                    color: textColor,
+                  ),
+                  label: Text(
+                    'Edit Location',
+                    style: TextStyle(color: textColor),
+                  ),
                 ),
-              ),
-            ],
+                SizedBox(height: 20.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      data['location'],
+                      style: TextStyle(
+                        fontSize: 30.0,
+                        letterSpacing: 2.0,
+                        color: textColor,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20.0),
+                Text(
+                  data['time'],
+                  style: TextStyle(
+                    fontSize: 68.0,
+                    color: textColor,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
